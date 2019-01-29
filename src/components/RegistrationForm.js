@@ -14,8 +14,7 @@ const styles = theme => ({
     flexDirection:'column'
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: `10px auto`,
     width: 200,
   },
   button:{
@@ -71,7 +70,6 @@ class Form extends Component {
             onChange={this.handleChange('name')}
             margin="normal"
             autoFocus
-            fullWidth
           />
           <TextField
             id="standard-textarea"
