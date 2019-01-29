@@ -1,2 +1,3 @@
 import React from 'react'
-export default () => <h1> CreateProfile</h1>
+import Header from '../components/Header'
+export default () => <Header> Create Profile </Header>

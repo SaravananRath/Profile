@@ -9,6 +9,9 @@ class Routes extends Component {
     return (
       <Router>
       <div>
+        <Route path="/" exact component={Home} />
+        <Route path="/new" exact component={CreateProfile} />
+        <Route path="/profile/:name" component={Profile} />
         <nav>
           <ul>
             <li>
@@ -22,10 +25,6 @@ class Routes extends Component {
             </li>
           </ul>
         </nav>
-  
-        <Route path="/" exact component={Home} />
-        <Route path="/new" exact component={CreateProfile} />
-        <Route path="/profile/:name" component={Profile} />
       </div>
     </Router>
     );
