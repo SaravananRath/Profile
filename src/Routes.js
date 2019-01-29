@@ -14,19 +14,6 @@ class Routes extends Component {
           <Route path="/new" exact component={CreateProfile} />
           <Route path="/:name" component={Profile} />
         </Switch>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/new/">Create a new Profile</Link>
-            </li>
-            <li>
-              <Link to={`/rohan/`}>Profile</Link>
-            </li>
-          </ul>
-        </nav>
       </div>
     </Router>
     );
