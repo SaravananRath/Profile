@@ -10,9 +10,9 @@ class Routes extends Component {
       <Router>
       <div>
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/new" exact component={CreateProfile} />
-          <Route path="/:name" component={Profile} />
+          <Route path="/" exact render = { props => <Home {...props }/>} />
+          <Route path="/new" exact render = { props => <CreateProfile {...props}/>} />
+          <Route path="/:name" render = { props => <Profile {...props}/>} />
         </Switch>
       </div>
     </Router>
