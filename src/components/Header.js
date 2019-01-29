@@ -26,7 +26,10 @@ const styles = theme => ({
   navbar_links: {
     textDecoration: 'none',
     color: 'white',
-    marginLeft: 20
+    marginLeft: 20,
+    '&:hover': {
+      color: 'skyblue'
+   }
   },
   menuButton: {
     [theme.breakpoints.up('sm')]: {
@@ -50,7 +53,6 @@ class Header extends Component {
     this.setState({ selected: null, link },() => this.redirect(link));
   };
   redirect = (link) => {
-    console.log(this.props.location)
     if(this.props.location) this.props.history.push(`${link}`)
 
   }
