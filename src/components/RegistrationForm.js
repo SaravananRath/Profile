@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
+import Save from '@material-ui/icons/Save'
 
 const styles = theme => ({
   container: {
@@ -29,44 +30,82 @@ const styles = theme => ({
 
 
 class Form extends Component {
+  constructor(){
+    super()
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
   state = {
-    name: '',
-    imagePreviewUrl: null,
-    description: '',
-    file:''
+    user :{
+      name: '',
+      imagePreviewUrl: null,
+      description: '',
+      file:'',
+    },
+    errors:{
+      nameMsg:'',
+      fileMsg:'',
+      descMsg:''
+    }
   }
 
   handleChange = name => event => {
+    const user = this.state.user
     if(name === 'file'){
       let reader = new FileReader();
       let file = event.target.files[0];
       reader.onloadend = () => {
-        this.setState({
-          file: file,
-          imagePreviewUrl: reader.result
-        });
+        user['file'] = file
+        user['imagePreviewUrl'] = reader.result
+        this.setState({ user });
       }
       reader.readAsDataURL(file)
     }
-    this.setState({
-      [name]: event.target.value,
-    })
+    user[name] = event.target.value
+    this.setState({ user})
+  }
+  
+  validate = () => {
+    let flag = 1
+    const { user: { name, description, file }, errors} = this.state
+    if( name === '') {
+      errors['nameMsg'] = 'Name cannot be empty'
+      flag = 0
+    }  
+    if( description === '') 
+    {
+      errors['descMsg'] = 'Description cannot be empty'
+      flag = 0
+    }  
+    if( file === '') {
+      errors['fileMsg'] = 'Choose an image'
+      flag = 0
+    }  
+    this.setState({ errors })
+    return flag
+  }
+   async handleSubmit (){
+     let flag = await this.validate()
+     console.log({flag})
+      if (flag){
+      console.log('Saved')
+    }
+    console.log(this.state)
   }
 
   render() {
     const { classes: { container, textField, button, avatar} } = this.props
-
+    const { user: { name, description, imagePreviewUrl} } = this.state
     return (
       <Grid container justify="center" alignItems="center">
         <form className={container} noValidate autoComplete="off">
-          <Avatar alt="Profile Picture" src={this.state.imagePreviewUrl} className={avatar} />
+          <Avatar alt="Profile Picture" src={imagePreviewUrl} className={avatar} />
           <Button className={button} containerelement='label' label='Choose Image'>
             <input type='file' onChange={this.handleChange('file')}/>
           </Button>
           <TextField
             label="Name"
             className={textField}
-            value={this.state.name}
+            value={name}
             onChange={this.handleChange('name')}
             margin="normal"
             autoFocus
@@ -74,11 +113,15 @@ class Form extends Component {
           <TextField
             id="standard-textarea"
             label="About Yourself"
+            value={description}
             multiline
             onChange={this.handleChange('description')}
             className={textField}
             margin="normal"
           />
+          <Button className={button} color='primary' onClick={this.handleSubmit}>
+            <Save/>SAVE
+          </Button>
         </form>
       </Grid>
       )
