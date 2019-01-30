@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
 import Save from '@material-ui/icons/Save'
 import Notification from "./Notification";
@@ -35,10 +34,20 @@ const styles = theme => ({
 });
 
 
-class Form extends Component {
+class RegistrationForm extends Component {
   componentDidMount(){
-    let id = this.props.name
+    let id = parseInt(localStorage.getItem('Id')) || 0
     this.setState({ id })
+  }
+  static getDerivedStateFromProps(props, state){
+    const { name, image, description } = props
+    console.log({ name, image, description })
+    let newState = {...state}
+    newState.user.name = name
+    newState.user.image = image
+    newState.user.description = description
+    newState.imagePreviewUrl = image
+    return newState
   }
   constructor(props){
     super(props)
@@ -48,9 +57,9 @@ class Form extends Component {
     imagePreviewUrl: '',
     file:'',
     user :{
-      name: props.name  || '',
-      description: props.description || '',
-      image:props.image || ''
+      name: '',
+      description: '',
+      image:''
     },
     errors:{
       nameMsg:'',
@@ -180,4 +189,4 @@ class Form extends Component {
       )
   }
 }
-export default withStyles(styles)(Form)
+export default withStyles(styles)(RegistrationForm)

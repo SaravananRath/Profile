@@ -22,12 +22,7 @@ const styles = {
        user:{}
      }
    }
-   componentDidMount() {
-     let user = JSON.parse(localStorage.getItem('users0'))
-     this.setState({ user })
-   }
    render(){
-     console.log(this.props)
     const { classes, name = 'Empty', image = 'Empty', description = 'Empty', push, edit } = this.props
     return (
       <div>
