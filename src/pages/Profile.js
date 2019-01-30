@@ -11,6 +11,12 @@ const styles = {
   },
   header: {
     marginBottom: 20,
+  },
+  body: {
+    marginLeft: 20,
+  },
+  body_item: {
+    marginTop:20
   }
 }
 
@@ -34,18 +40,18 @@ class Profile extends Component {
   }
   
   render(){
-    const { classes: { root, header}, ...other} = this.props
+    const { classes: { root, header, body, body_item}, ...other} = this.props
     return(
       <Fragment>
         <Grid container className={root} >
           <Grid item xs={12} className={header} >
             <Header {...other}> Profile </Header>
           </Grid>
-          <Grid container justify='space-around' alignItems='center'>
-            <Grid item xs={12} sm={4} >
+          <Grid container justify='space-around' alignItems='center' className={body}>
+            <Grid item xs={12} sm={6} className={body_item} >
               <ProfileCard edit={true} {...this.state}/>
             </Grid>
-            <Grid item xs={12} sm={4}  >
+            <Grid item xs={12} sm={6} className={body_item} >
               <RegistrationForm edit={true} {...other}/>
             </Grid>
           </Grid>

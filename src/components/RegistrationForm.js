@@ -11,9 +11,11 @@ const styles = theme => ({
   container: {
     // marginTop: 20,
     // padding: 10,
+    maxWidth: 345,
     background: `#d3d3d378`,
     display:'flex',
-    flexDirection:'column'
+    flexDirection:'column',
+    margin: `0 auto`
   },
   textField: {
     margin: `10px auto`,
@@ -21,6 +23,7 @@ const styles = theme => ({
   },
   button:{
     marginTop:20,
+    margin: `0 auto`
   },
   avatar: {
     width: 200,
@@ -44,18 +47,10 @@ class RegistrationForm extends Component {
     let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
     let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
     let user_data = users_data.filter( data => data.name === username)
-    console.log({user_data})
-    const { name, description, image } = users_data[0]
-    this.setState({ name, description,image})
+    const { name, description, image } = user_data[0]
     this.setState({ user: {
         name, description, image
       }, imagePreviewUrl:image })
-
-    // const user = { ...this.state.user }
-    // user.name = name
-    // user.image = image
-    // user.description = description
-    // this.setState({ user })
   }
   constructor(props){
     super(props)
