@@ -37,13 +37,13 @@ class Form extends Component {
   state = {
     user :{
       name: '',
-      imagePreviewUrl: null,
+      imagePreviewUrl: '',
       description: '',
       file:'',
     },
     errors:{
       nameMsg:'',
-      fileMsg:'',
+      imgMsg:'',
       descMsg:''
     }
   }
@@ -66,30 +66,40 @@ class Form extends Component {
   
   validate = () => {
     let flag = 1
-    const { user: { name, description, file }, errors} = this.state
+    const { user: { name, description, imagePreviewUrl }, errors} = this.state
+    
     if( name === '') {
       errors['nameMsg'] = 'Name cannot be empty'
       flag = 0
-    }  
+    } else {
+      errors['nameMsg'] = ''
+    }
+
     if( description === '') 
     {
       errors['descMsg'] = 'Description cannot be empty'
       flag = 0
-    }  
-    if( file === '') {
-      errors['fileMsg'] = 'Choose an image'
+    } else {
+      errors['descMsg'] = ''
+    } 
+
+    if( imagePreviewUrl === '') {
+      errors['imgMsg'] = 'Choose an image'
       flag = 0
-    }  
+    } else {
+      errors['imgMsg'] = ''
+    } 
     this.setState({ errors })
     return flag
   }
    async handleSubmit (){
      let flag = await this.validate()
-     console.log({flag})
       if (flag){
-      console.log('Saved')
-    }
-    console.log(this.state)
+        console.log('Saved')
+      }
+      else{
+        console.log(this.state)
+      }
   }
 
   render() {
