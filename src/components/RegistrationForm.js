@@ -9,13 +9,12 @@ import Notification from "./Notification";
 
 const styles = theme => ({
   container: {
-    // marginTop: 20,
-    // padding: 10,
     maxWidth: 345,
     background: `#d3d3d378`,
     display:'flex',
     flexDirection:'column',
-    margin: `0 auto`
+    margin: `30px auto`,
+    padding: 10
   },
   textField: {
     margin: `10px auto`,
@@ -41,8 +40,8 @@ class RegistrationForm extends Component {
   componentDidMount(){
     let id = parseInt(localStorage.getItem('Id')) || 0
     this.setState({ id })
-    
     const { name: username } = this.props.match.params
+    if(username) {
     let keys = Object.keys(localStorage)
     let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
     let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
@@ -52,6 +51,7 @@ class RegistrationForm extends Component {
         name, description, image
       }, imagePreviewUrl:image })
   }
+}
   constructor(props){
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)

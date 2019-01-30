@@ -10,7 +10,7 @@ class CreateProfile extends Component {
     return (
       <Fragment>
         <Header {...this.props}> Create Profile </Header>
-        <Grid container justify="center" alignItems="center">
+        <Grid container  >
           <RegistrationForm {...this.props} />
         </Grid>
       </Fragment>
