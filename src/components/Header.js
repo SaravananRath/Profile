@@ -77,9 +77,9 @@ class Header extends Component {
                 <li>
                   <Link className={navbar_links} to="/new/">NEW PROFILE</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className={navbar_links} to={`/rohan/`}>PROFILE</Link>
-                </li>
+                </li> */}
               </ul>
             </nav>
             <IconButton 
@@ -112,9 +112,9 @@ class Header extends Component {
                   <MenuItem onClick={this.handleClose('/new/')}>
                     Create a new Profile
                   </MenuItem>
-                  <MenuItem onClick={this.handleClose('/rohan/')}>
+                  {/* <MenuItem onClick={this.handleClose('/rohan/')}>
                     Profile
-                  </MenuItem>
+                  </MenuItem> */}
                 </Menu>
           </Toolbar>
   

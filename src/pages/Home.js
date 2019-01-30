@@ -25,14 +25,12 @@ const styles = theme => ({
 });
 
 class Home extends Component {
-  
   componentDidMount(){
     let keys = Object.keys(localStorage)
     let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
     let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
     let users = this.chunkArray(users_data,3)
     this.setState({ users})
-    console.log({ users })
   }
   constructor(){
      super()
@@ -54,7 +52,6 @@ class Home extends Component {
    render(){
     const { classes: { root, card_row, card_item, header }, ...remaining } = this.props 
     const { users } = this.state
-    console.log(this.props)
     return (
       <Fragment>
         <Grid container className={root} >
@@ -62,7 +59,7 @@ class Home extends Component {
             <Header {...remaining}> Home </Header>
           </Grid>     
           {
-            users.map((user,i) => <Grid key={i} container justify={'space-between'} className={card_row}>
+            users.map((user,i) => <Grid key={i} container className={card_row} justify='space-evenly'>
               { 
                 user.map((userData,i) => <Grid key={i} item xs={12} sm={3} className={card_item}>
                   <ProfileCard {...userData}/>

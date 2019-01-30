@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
 import Save from '@material-ui/icons/Save'
+import Notification from "./Notification";
+
 
 const styles = theme => ({
   container: {
@@ -51,8 +53,16 @@ class Form extends Component {
       nameMsg:'',
       imgMsg:'',
       descMsg:''
-    }
+    },
+    open: false
   }
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
 
   handleFile = event => {
     let user = this.state.user
@@ -105,7 +115,10 @@ class Form extends Component {
       if (flag){
         console.log('Saved')
         localStorage.setItem(`user${this.state.id}`, JSON.stringify(this.state.user))
-        this.setState({ id : this.state.id + 1}, () => localStorage.setItem('Id',this.state.id))
+        this.setState({ id : this.state.id + 1, open: true }, () => localStorage.setItem('Id',this.state.id))
+        setTimeout(() => {
+          this.props.history.push('/')
+        },2200)
       }
       else{
         console.log(this.state)
@@ -143,6 +156,7 @@ class Form extends Component {
             <Save/>SAVE
           </Button>
         </form>
+        <Notification handleClose={this.handleClose} open={this.state.open}/>
       </Grid>
       )
   }

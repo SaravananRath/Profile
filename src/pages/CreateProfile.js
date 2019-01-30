@@ -1,9 +1,17 @@
-import React, { Fragment } from 'react'
-import Header from '../components/Header'
-import RegistrationForm from '../components/RegistrationForm'
+import React, { Fragment, Component } from "react";
+import Header from "../components/Header";
+import RegistrationForm from "../components/RegistrationForm";
 
-export default (props) => 
-  <Fragment>
-    <Header {...props}> Create Profile </Header>
-    <RegistrationForm/>
-  </Fragment>
+class CreateProfile extends Component {
+
+  render() {
+    return (
+      <Fragment>
+        <Header {...this.props}> Create Profile </Header>
+        <RegistrationForm {...this.props} />
+      </Fragment>
+    );
+  }
+}
+
+export default CreateProfile;
