@@ -27,34 +27,40 @@ class Profile extends Component {
     let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
     let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
     let user_data = users_data.filter( data => data.name === username)
-    const { name, description, image } = user_data[0]
-    this.setState({ name, description,image})
+    if( user_data.length > 0) {
+      const { name, description, image } = user_data[0]
+      this.setState({ name, description,image})
+    } else{
+      this.setState({ render: false})
+    }
   }
   constructor(){
     super()
     this.state={
       name:'',
       description:'',
-      image:''
+      image:'',
+      render: true
     }
   }
   
   render(){
     const { classes: { root, header, body, body_item}, ...other} = this.props
+    const { render } = this.state
     return(
       <Fragment>
         <Grid container className={root} >
           <Grid item xs={12} className={header} >
             <Header {...other}> Profile </Header>
           </Grid>
-          <Grid container justify='space-around' alignItems='center' className={body}>
+          { render ? (<Grid container justify='space-around' alignItems='center' className={body}>
             <Grid item xs={12} sm={6} className={body_item} >
               <ProfileCard edit={true} {...this.state}/>
             </Grid>
             <Grid item xs={12} sm={6} className={body_item} >
               <RegistrationForm edit={true} {...other}/>
             </Grid>
-          </Grid>
+          </Grid>) : (<div> INVALID PROFILE NAME</div>)}
         </Grid>
       </Fragment> 
     )
