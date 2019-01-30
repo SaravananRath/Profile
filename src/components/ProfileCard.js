@@ -16,8 +16,8 @@ const styles = {
 };
 
  class ProfileCard extends Component {
-   constructor(){
-     super()
+   constructor(props){
+     super(props)
      this.state = {
        user:{}
      }
@@ -27,18 +27,19 @@ const styles = {
      this.setState({ user })
    }
    render(){
-    const { classes, name, image, description } = this.props
+     console.log(this.props)
+    const { classes, name = 'Empty', image = 'Empty', description = 'Empty', push, edit } = this.props
     return (
       <div>
         <Card className={classes.card}>
-          <CardActionArea>
+         { !edit ? (<CardActionArea onClick ={() => push(`/${name}`) }>
             <CardMedia
               component="img"
-              alt="Contemplative Reptile"
+              alt="Profile Picture"
               className={classes.media}
               height="140"
               src={image}
-              title="Contemplative Reptile"
+              title="Profile Picture"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
@@ -48,7 +49,24 @@ const styles = {
                 {description}
               </Typography>
             </CardContent>
-          </CardActionArea>
+          </CardActionArea>) : 
+          (<><CardMedia
+              component="img"
+              alt="Profile Picture"
+              className={classes.media}
+              height="140"
+              src={image}
+              title="Profile Picture"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {name}
+              </Typography>
+              <Typography component="p">
+                {description}
+              </Typography>
+          </CardContent></>
+          )} 
         </Card>
       </div>
     );

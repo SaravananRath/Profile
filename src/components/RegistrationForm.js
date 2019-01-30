@@ -10,8 +10,8 @@ import Notification from "./Notification";
 
 const styles = theme => ({
   container: {
-    marginTop: 20,
-    padding: 10,
+    // marginTop: 20,
+    // padding: 10,
     background: `#d3d3d378`,
     display:'flex',
     flexDirection:'column'
@@ -37,21 +37,20 @@ const styles = theme => ({
 
 class Form extends Component {
   componentDidMount(){
-    let id = localStorage.getItem('Id') || 0
+    let id = this.props.name
     this.setState({ id })
   }
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-  state = {
+    this.state = {
     id:0,
     imagePreviewUrl: '',
     file:'',
     user :{
-      name: '',
-      description: '',
-      image: ''
+      name: props.name  || '',
+      description: props.description || '',
+      image:props.image || ''
     },
     errors:{
       nameMsg:'',
@@ -64,7 +63,7 @@ class Form extends Component {
       description: false
     }
   }
-
+}
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -139,10 +138,10 @@ class Form extends Component {
   }
 
   render() {
-    const { classes: { container, textField, button, avatar, errText} } = this.props
+    const { classes: { container, textField, button, avatar, errText }, edit } = this.props
     const { user: { name, description }, imagePreviewUrl, errors: { nameMsg ,descMsg, imgMsg}, touched } = this.state
     return (
-      <Grid container justify="center" alignItems="center">
+      <>
         <form className={container} noValidate autoComplete="off">
           <Avatar alt="Profile Picture" src={imagePreviewUrl} className={avatar} id='profilePic' />
           <Button className={button} containerelement='label' label='Choose Image'>
@@ -158,6 +157,7 @@ class Form extends Component {
             error={Boolean(nameMsg) && touched.name}
             onFocus={this.handleFocus('name')}
             helperText={nameMsg}
+            disabled={edit}
           />
           <TextField
             id="standard-textarea"
@@ -171,12 +171,12 @@ class Form extends Component {
             error={Boolean(descMsg) && touched.description}
             helperText={descMsg}
           />
-          <Button className={button} color='primary' onClick={this.handleSubmit}>
+          {!edit && <Button className={button} color='primary' onClick={this.handleSubmit}>
             <Save/>SAVE
-          </Button>
+          </Button>}
         </form>
         <Notification handleClose={this.handleClose} open={this.state.open}/>
-      </Grid>
+        </>
       )
   }
 }

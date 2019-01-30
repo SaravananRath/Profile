@@ -1,6 +1,8 @@
 import React, { Fragment, Component } from "react";
 import Header from "../components/Header";
 import RegistrationForm from "../components/RegistrationForm";
+import Grid from '@material-ui/core/Grid';
+
 
 class CreateProfile extends Component {
 
@@ -8,7 +10,9 @@ class CreateProfile extends Component {
     return (
       <Fragment>
         <Header {...this.props}> Create Profile </Header>
-        <RegistrationForm {...this.props} />
+        <Grid container justify="center" alignItems="center">
+          <RegistrationForm {...this.props} />
+        </Grid>
       </Fragment>
     );
   }

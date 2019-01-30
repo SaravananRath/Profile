@@ -62,7 +62,7 @@ class Home extends Component {
             users.map((user,i) => <Grid key={i} container className={card_row} justify='space-evenly'>
               { 
                 user.map((userData,i) => <Grid key={i} item xs={12} sm={3} className={card_item}>
-                  <ProfileCard {...userData}/>
+                  <ProfileCard {...userData} {...this.props.history}/>
                 </Grid>)
               }
             </Grid>)
