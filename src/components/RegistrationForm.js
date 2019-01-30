@@ -40,14 +40,13 @@ class RegistrationForm extends Component {
     this.setState({ id });
     if (this.props.match.params.name) {
       const { name: username } = this.props.match.params;
-      console.log({username})
       if (username) {
         let keys = Object.keys(localStorage);
         let users_keys = keys.filter(key => key.substring(0, 4) === "user");
         let users_data = users_keys.map(user =>
           JSON.parse(localStorage.getItem(user))
         );
-        let user_data = users_data.filter(data => data.name  === username);
+        let user_data = users_data.filter(data => data.name === username);
         if (user_data.length > 0) {
           const { name, description, image, id } = user_data[0];
           this.setState({
@@ -62,7 +61,7 @@ class RegistrationForm extends Component {
             this.setState({ id });
           }
         }
-      } 
+      }
     }
   }
   constructor(props) {
@@ -76,7 +75,7 @@ class RegistrationForm extends Component {
         name: "",
         description: "",
         image: "",
-        id:""
+        id: ""
       },
       errors: {
         nameMsg: "",
@@ -122,10 +121,10 @@ class RegistrationForm extends Component {
   handleUser = name => event => {
     const user = this.state.user;
     user[name] = event.target.value;
-    if(this.props.edit){
-      user['id'] = this.state.id
-    } else{
-      user['id'] = `user${this.state.id}`
+    if (this.props.edit) {
+      user["id"] = this.state.id;
+    } else {
+      user["id"] = `user${this.state.id}`;
     }
     this.setState({ user });
   };
@@ -183,7 +182,7 @@ class RegistrationForm extends Component {
   render() {
     const {
       classes: { container, textField, button, avatar, errText },
-      edit= false
+      edit = false
     } = this.props;
     const {
       user: { name, description },
@@ -205,7 +204,12 @@ class RegistrationForm extends Component {
             containerelement="label"
             label="Choose Image"
           >
-            <input type="file" onChange={this.handleFile} required onBlur={() => (edit ? this.handleBlur() : console.log("blurred"))} />
+            <input
+              type="file"
+              onChange={this.handleFile}
+              required
+              onBlur={() => (edit ? this.handleBlur() : console.log("blurred"))}
+            />
           </Button>
           <p className={errText}>{imgMsg}</p>
           <TextField

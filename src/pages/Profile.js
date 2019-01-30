@@ -1,71 +1,84 @@
-import React, { Fragment, Component } from 'react'
-import Header from '../components/Header'
+import React, { Fragment, Component } from "react";
+import Header from "../components/Header";
 import RegistrationForm from "../components/RegistrationForm";
-import ProfileCard from '../components/ProfileCard'
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import ProfileCard from "../components/ProfileCard";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
-  root:{
-    flexGrow: 1,
+  root: {
+    flexGrow: 1
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 20
   },
   body: {
-    marginLeft: 20,
+    marginLeft: 20
   },
   body_item: {
-    marginTop:20
+    marginTop: 20
   }
-}
+};
 
 class Profile extends Component {
-  componentDidMount(){
-    const { name: username } = this.props.match.params
-    let keys = Object.keys(localStorage)
-    let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
-    let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
-    let user_data = users_data.filter( data => data.name === username)
-    if( user_data.length > 0) {
-      const { name, description, image } = user_data[0]
-      this.setState({ name, description,image})
-    } else{
-      this.setState({ render: false})
+  componentDidMount() {
+    const { name: username } = this.props.match.params;
+    let keys = Object.keys(localStorage);
+    let users_keys = keys.filter(key => key.substring(0, 4) === "user");
+    let users_data = users_keys.map(user =>
+      JSON.parse(localStorage.getItem(user))
+    );
+    let user_data = users_data.filter(data => data.name === username);
+    if (user_data.length > 0) {
+      const { name, description, image } = user_data[0];
+      this.setState({ name, description, image });
+    } else {
+      this.setState({ render: false });
     }
   }
-  constructor(){
-    super()
-    this.state={
-      name:'',
-      description:'',
-      image:'',
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      description: "",
+      image: "",
       render: true
-    }
+    };
   }
-  
-  render(){
-    const { classes: { root, header, body, body_item}, ...other} = this.props
-    const { render } = this.state
-    return(
+
+  render() {
+    const {
+      classes: { root, header, body, body_item },
+      ...other
+    } = this.props;
+    const { render } = this.state;
+    return (
       <Fragment>
-        <Grid container className={root} >
-          <Grid item xs={12} className={header} >
+        <Grid container className={root}>
+          <Grid item xs={12} className={header}>
             <Header {...other}> Profile </Header>
           </Grid>
-          { render ? (<Grid container justify='space-around' alignItems='center' className={body}>
-            <Grid item xs={12} sm={6} className={body_item} >
-              <ProfileCard edit={true} {...this.state}/>
+          {render ? (
+            <Grid
+              container
+              justify="space-around"
+              alignItems="center"
+              className={body}
+            >
+              <Grid item xs={12} sm={6} className={body_item}>
+                <ProfileCard edit={true} {...this.state} />
+              </Grid>
+              <Grid item xs={12} sm={6} className={body_item}>
+                <RegistrationForm edit={true} {...other} />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} className={body_item} >
-              <RegistrationForm edit={true} {...other}/>
-            </Grid>
-          </Grid>) : (<div> INVALID PROFILE NAME</div>)}
+          ) : (
+            <div> INVALID PROFILE NAME</div>
+          )}
         </Grid>
-      </Fragment> 
-    )
+      </Fragment>
+    );
   }
-
 }
 
-export default withStyles(styles)(Profile)
+export default withStyles(styles)(Profile);
