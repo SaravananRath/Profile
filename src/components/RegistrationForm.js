@@ -30,16 +30,22 @@ const styles = theme => ({
 
 
 class Form extends Component {
+  componentDidMount(){
+    let id = localStorage.getItem('Id') || 0
+    this.setState({ id })
+  }
   constructor(){
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   state = {
+    id:0,
+    imagePreviewUrl: '',
+    file:'',
     user :{
       name: '',
-      imagePreviewUrl: '',
       description: '',
-      file:'',
+      image: ''
     },
     errors:{
       nameMsg:'',
@@ -48,25 +54,27 @@ class Form extends Component {
     }
   }
 
-  handleChange = name => event => {
-    const user = this.state.user
-    if(name === 'file'){
-      let reader = new FileReader();
-      let file = event.target.files[0];
-      reader.onloadend = () => {
-        user['file'] = file
-        user['imagePreviewUrl'] = reader.result
-        this.setState({ user });
-      }
-      reader.readAsDataURL(file)
+  handleFile = event => {
+    let user = this.state.user
+    let reader = new FileReader();
+    let file = event.target.files[0];
+    reader.onloadend = () => {
+      this.setState({ file, imagePreviewUrl:reader.result })
+      user['image'] = reader.result
     }
+    if(file) reader.readAsDataURL(file)
+    this.setState({ user })
+ 
+  }
+  handleUser = name => event => {
+    const user = this.state.user
     user[name] = event.target.value
     this.setState({ user})
   }
   
   validate = () => {
     let flag = 1
-    const { user: { name, description, imagePreviewUrl }, errors} = this.state
+    const { user: { name, description }, errors, imagePreviewUrl} = this.state
     
     if( name === '') {
       errors['nameMsg'] = 'Name cannot be empty'
@@ -96,6 +104,8 @@ class Form extends Component {
      let flag = await this.validate()
       if (flag){
         console.log('Saved')
+        localStorage.setItem(`users${this.state.id}`, JSON.stringify(this.state.user))
+        this.setState({ id : this.state.id + 1}, () => localStorage.setItem('Id',this.state.id))
       }
       else{
         console.log(this.state)
@@ -104,19 +114,19 @@ class Form extends Component {
 
   render() {
     const { classes: { container, textField, button, avatar} } = this.props
-    const { user: { name, description, imagePreviewUrl} } = this.state
+    const { user: { name, description }, imagePreviewUrl } = this.state
     return (
       <Grid container justify="center" alignItems="center">
         <form className={container} noValidate autoComplete="off">
-          <Avatar alt="Profile Picture" src={imagePreviewUrl} className={avatar} />
+          <Avatar alt="Profile Picture" src={imagePreviewUrl} className={avatar} id='profilePic' />
           <Button className={button} containerelement='label' label='Choose Image'>
-            <input type='file' onChange={this.handleChange('file')}/>
+            <input type='file' onChange={this.handleFile} />
           </Button>
           <TextField
             label="Name"
             className={textField}
             value={name}
-            onChange={this.handleChange('name')}
+            onChange={this.handleUser('name')}
             margin="normal"
             autoFocus
           />
@@ -125,7 +135,7 @@ class Form extends Component {
             label="About Yourself"
             value={description}
             multiline
-            onChange={this.handleChange('description')}
+            onChange={this.handleUser('description')}
             className={textField}
             margin="normal"
           />
