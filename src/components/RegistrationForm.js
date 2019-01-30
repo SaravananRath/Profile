@@ -27,6 +27,10 @@ const styles = theme => ({
     width: 200,
     height: 200,
     margin: `10px auto`,
+  },
+  errText: {
+    textAlign: 'center',
+    color: 'red',
   }
 });
 
@@ -54,7 +58,11 @@ class Form extends Component {
       imgMsg:'',
       descMsg:''
     },
-    open: false
+    open: false,
+    touched: {
+      name: false,
+      description: false
+    }
   }
 
   handleClose = (event, reason) => {
@@ -76,10 +84,15 @@ class Form extends Component {
     this.setState({ user })
  
   }
+  handleFocus = name => event => {
+    const touched = this.state.touched
+    touched[name] = true
+    this.setState({ touched })
+  }
   handleUser = name => event => {
     const user = this.state.user
     user[name] = event.target.value
-    this.setState({ user})
+    this.setState({ user })
   }
   
   validate = () => {
@@ -115,7 +128,7 @@ class Form extends Component {
       if (flag){
         console.log('Saved')
         localStorage.setItem(`user${this.state.id}`, JSON.stringify(this.state.user))
-        this.setState({ id : this.state.id + 1, open: true }, () => localStorage.setItem('Id',this.state.id))
+        this.setState({ id : parseInt(this.state.id) + 1, open: true }, () => localStorage.setItem('Id',this.state.id))
         setTimeout(() => {
           this.props.history.push('/')
         },2200)
@@ -126,22 +139,25 @@ class Form extends Component {
   }
 
   render() {
-    const { classes: { container, textField, button, avatar} } = this.props
-    const { user: { name, description }, imagePreviewUrl } = this.state
+    const { classes: { container, textField, button, avatar, errText} } = this.props
+    const { user: { name, description }, imagePreviewUrl, errors: { nameMsg ,descMsg, imgMsg}, touched } = this.state
     return (
       <Grid container justify="center" alignItems="center">
         <form className={container} noValidate autoComplete="off">
           <Avatar alt="Profile Picture" src={imagePreviewUrl} className={avatar} id='profilePic' />
           <Button className={button} containerelement='label' label='Choose Image'>
-            <input type='file' onChange={this.handleFile} />
+            <input type='file' onChange={this.handleFile} required/>
           </Button>
+          <p className={errText}>{imgMsg}</p>
           <TextField
             label="Name"
             className={textField}
             value={name}
             onChange={this.handleUser('name')}
             margin="normal"
-            autoFocus
+            error={Boolean(nameMsg) && touched.name}
+            onFocus={this.handleFocus('name')}
+            helperText={nameMsg}
           />
           <TextField
             id="standard-textarea"
@@ -151,6 +167,9 @@ class Form extends Component {
             onChange={this.handleUser('description')}
             className={textField}
             margin="normal"
+            onFocus={this.handleFocus('description')}
+            error={Boolean(descMsg) && touched.description}
+            helperText={descMsg}
           />
           <Button className={button} color='primary' onClick={this.handleSubmit}>
             <Save/>SAVE
