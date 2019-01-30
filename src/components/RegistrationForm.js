@@ -38,16 +38,24 @@ class RegistrationForm extends Component {
   componentDidMount(){
     let id = parseInt(localStorage.getItem('Id')) || 0
     this.setState({ id })
-  }
-  static getDerivedStateFromProps(props, state){
-    const { name, image, description } = props
-    console.log({ name, image, description })
-    let newState = {...state}
-    newState.user.name = name
-    newState.user.image = image
-    newState.user.description = description
-    newState.imagePreviewUrl = image
-    return newState
+    
+    const { name: username } = this.props.match.params
+    let keys = Object.keys(localStorage)
+    let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
+    let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
+    let user_data = users_data.filter( data => data.name === username)
+    console.log({user_data})
+    const { name, description, image } = users_data[0]
+    this.setState({ name, description,image})
+    this.setState({ user: {
+        name, description, image
+      }, imagePreviewUrl:image })
+
+    // const user = { ...this.state.user }
+    // user.name = name
+    // user.image = image
+    // user.description = description
+    // this.setState({ user })
   }
   constructor(props){
     super(props)

@@ -21,8 +21,7 @@ class Profile extends Component {
     let users_keys = keys.filter(key => key.substring(0,4) === 'user' )
     let users_data = users_keys.map( user => JSON.parse(localStorage.getItem(user)))
     let user_data = users_data.filter( data => data.name === username)
-    console.log({user_data})
-    const { name, description, image } = users_data[0]
+    const { name, description, image } = user_data[0]
     this.setState({ name, description,image})
   }
   constructor(){
@@ -47,7 +46,7 @@ class Profile extends Component {
               <ProfileCard edit={true} {...this.state}/>
             </Grid>
             <Grid item xs={12} sm={4}  >
-              <RegistrationForm edit={true} {...this.state}/>
+              <RegistrationForm edit={true} {...other}/>
             </Grid>
           </Grid>
         </Grid>
