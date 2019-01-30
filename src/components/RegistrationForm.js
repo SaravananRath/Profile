@@ -104,7 +104,7 @@ class Form extends Component {
      let flag = await this.validate()
       if (flag){
         console.log('Saved')
-        localStorage.setItem(`users${this.state.id}`, JSON.stringify(this.state.user))
+        localStorage.setItem(`user${this.state.id}`, JSON.stringify(this.state.user))
         this.setState({ id : this.state.id + 1}, () => localStorage.setItem('Id',this.state.id))
       }
       else{
