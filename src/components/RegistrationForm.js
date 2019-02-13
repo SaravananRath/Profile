@@ -119,14 +119,15 @@ class RegistrationForm extends Component {
     this.setState({ touched });
   };
   handleUser = name => event => {
-    const user = this.state.user;
-    user[name] = event.target.value;
-    if (this.props.edit) {
-      user["id"] = this.state.id;
-    } else {
-      user["id"] = `user${this.state.id}`;
-    }
-    this.setState({ user });
+
+    event.persist();
+    this.setState(({ user }) => ({
+        user: {
+          ...user,
+          [name]: event.target.value,
+          id: this.props.edit ? this.state.id : `user${this.state.id}`
+        }
+    }))
   };
 
   validate = () => {

@@ -9,7 +9,8 @@ import Typography from "@material-ui/core/Typography";
 const styles = {
   card: {
     maxWidth: 345,
-    margin: `0 auto`
+    margin: `0 auto`,
+    minHeight: 290
   },
   media: {
     objectFit: "cover"
